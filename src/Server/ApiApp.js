@@ -3,12 +3,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require("cors");
+const cors = require('cors');
 
-const indexRouter = require('./Routes/index');
-const alliancesRouter = require("./Routes/Alliances");
-const playersRouter = require("./Routes/Players");
-const citiesRouter = require("./Routes/Cities");
+const indexRouter = require('./Routes/Index');
+const worldsRouter = require('./Routes/Worlds');
+const alliancesRouter = require('./Routes/Alliances');
+const playersRouter = require('./Routes/Players');
+const citiesRouter = require('./Routes/Cities');
 
 const app = express();
 
@@ -21,9 +22,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', indexRouter);
-app.use("/alliances", alliancesRouter);
-app.use("/players", playersRouter);
-app.use("/cities", citiesRouter);
+app.use('/worlds', worldsRouter);
+app.use('/alliances', alliancesRouter);
+app.use('/players', playersRouter);
+app.use('/cities', citiesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

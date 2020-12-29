@@ -23,15 +23,15 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "publish": "gh-pages -d build",
-    "deploy": "npm run build & npm run publish",
+    "start-client": "react-scripts start",
+    "build-client": "react-scripts build",
+    "test-client": "react-scripts test",
+    "eject-client": "react-scripts eject",
+    "publish-client": "gh-pages -d build",
+    "deploy": "npm run build-client & npm run publish-client",
     "start-api": "nodemon ./src/server",
     "start-api-prod": "node ./src/server",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build-client"
   },
   "eslintConfig": {
     "extends": [
