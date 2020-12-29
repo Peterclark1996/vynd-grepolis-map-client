@@ -1,6 +1,6 @@
 {
   "name": "vynd-grepolis-map",
-  "homepage": "http://Peterclark1996.github.io/vynd-grepolis-map-client",
+  "homepage": "http://Peterclark1996.github.io/grepolis-live-map",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
