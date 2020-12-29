@@ -19,7 +19,7 @@ function App() {
         <div className="p-1">
           <WorldPicker world={world} worldList={worldList} setWorld={setWorld} />
         </div>
-        <Map />
+        <Map world={world} />
       </header>
     </div>
   );

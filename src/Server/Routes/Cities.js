@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', function (req, res, next) {
+    const world = req.query.world
     const cities = [{
         id: 0,
         name: "City name 1",

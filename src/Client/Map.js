@@ -3,31 +3,35 @@ import { MapContainer, LayersControl } from "react-leaflet";
 import Call from './Api'
 import Alliance from './Alliance'
 
-function Map() {
-    const [alliances, setAlliances] = React.useState([])
-    const [players, setPlayers] = React.useState([])
-    const [cities, setCities] = React.useState([])
+function Map({ world }) {
+    const [worldState, setWorldState] = React.useState({
+        alliances: [],
+        players: [],
+        cities: []
+    })
 
     React.useEffect(() => {
-        Call('alliances')
-            .then(setAlliances)
-        Call('players')
-            .then(setPlayers)
-        Call('cities')
-            .then(setCities)
-    }, []);
+        if (world == null || world.name == null || world.code == null) return
 
-    const state = {
-        alliances: alliances,
-        players: players,
-        cities: cities
-    }
+        const alliancesPromise = Call('alliances', { world: world.code })
+        const playersPromise = Call('players', { world: world.code })
+        const citiesPromise = Call('cities', { world: world.code })
+
+        Promise.all([alliancesPromise, playersPromise, citiesPromise])
+            .then(values => {
+                setWorldState({
+                    alliances: values[0],
+                    players: values[1],
+                    cities: values[2]
+                })
+            })
+    }, [world]);
 
     return (
         <MapContainer center={[0, 0]} zoom={5} scrollWheelZoom={true}>
             <LayersControl position="topleft">
-                {alliances.map((a) => {
-                    return <Alliance key={a.id} state={state} alliance={a} />
+                {worldState.alliances.map((a) => {
+                    return <Alliance key={a.id} state={worldState} alliance={a} />
                 })}
             </LayersControl>
         </MapContainer>
