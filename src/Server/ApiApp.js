@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-const indexRouter = require('./Routes/Index');
+const indexRouter = require('./Routes/index');
 const worldsRouter = require('./Routes/Worlds');
 const alliancesRouter = require('./Routes/Alliances');
 const playersRouter = require('./Routes/Players');
@@ -19,7 +19,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
+
+//TODO Stop express picking up /public/index.html as a base page
+//app.use(express.static(path.join(__dirname, '../../public')));
 
 app.use('/', indexRouter);
 app.use('/worlds', worldsRouter);
