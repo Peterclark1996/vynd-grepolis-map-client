@@ -1,3 +1,5 @@
+import { IsOutOfDate } from "./TimeF.js"
+
 var cache = {}
 
 export const GetFromStore = (code) => {
@@ -9,7 +11,10 @@ export const GetFromStore = (code) => {
 }
 
 export const PutInStore = (code, world) => {
-    //TODO Datecheck first, return if invalid
+    if (!IsOutOfDate(cache[code])) {
+        return
+    }
+
     cache[code] = world
 
     //TODO Store world in datastore

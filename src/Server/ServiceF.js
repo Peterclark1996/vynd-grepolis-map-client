@@ -1,5 +1,5 @@
 import { GetFromStore, PutInStore } from "./RepositoryF.js"
-import { IsOutOfDate } from "./WorldF.js"
+import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from "./TimeF.js"
 
 export const GetLiveWorldState = (code) => {
     if (IsOutOfDate(GetFromStore(code))) {
@@ -13,7 +13,7 @@ export const GetLiveWorldState = (code) => {
 const PullFromWorldGrepolis = (code) => {
     //TODO Grab from grepolis endpoint
     return {
-        datetime: new Date().getDate(),
+        datetime: GetCurrentSecondsSinceEpoch(),
         alliances: [{
             id: 0,
             name: "Alliance 1 on world " + code,
