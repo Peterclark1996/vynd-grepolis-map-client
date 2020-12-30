@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express'
+const router = express.Router()
 
 router.get('/', function (req, res, next) {
     const worlds = [{
@@ -39,4 +39,4 @@ router.get('/', function (req, res, next) {
     res.send(worlds);
 });
 
-module.exports = router;
+export default router

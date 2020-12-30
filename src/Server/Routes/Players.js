@@ -1,20 +1,15 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express'
+const router = express.Router()
+import { GetLiveWorldState } from "../ServiceF.js"
 
 router.get('/', function (req, res, next) {
     const world = req.query.world
-    const players = [{
-        id: 0,
-        name: "Player 1",
-        alliance: 0,
-        points: 99999
-    }, {
-        id: 1,
-        name: "Player 2",
-        alliance: 1,
-        points: 55599
-    }]
-    res.send(players);
+    if (world == null || world === "") {
+        res.status(400).send('Invalid world');
+        return
+    }
+
+    res.send(GetLiveWorldState(world).players);
 });
 
-module.exports = router;
+export default router

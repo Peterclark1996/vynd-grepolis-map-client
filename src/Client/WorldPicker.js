@@ -14,7 +14,7 @@ function WorldPicker({ world, worldList, setWorld }) {
         <div className="w-15">
             <DropdownButton id="dropdown-basic-button" title={WorldDisplay(world)}>
                 {worldList.map((w) => {
-                    return <Dropdown.Item key={w.code} onClick={() => ChangeWorld(w)}>{WorldDisplay(w)})</Dropdown.Item>
+                    return <Dropdown.Item key={w.code} onClick={() => ChangeWorld(w)}>{WorldDisplay(w)}</Dropdown.Item>
                 })}
             </DropdownButton>
         </div>

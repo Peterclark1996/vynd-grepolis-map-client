@@ -1,15 +1,15 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const cors = require('cors');
+import express from 'express'
+import path from 'path'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
+import createError from 'http-errors'
+import cors from 'cors'
 
-const indexRouter = require('./Routes/index');
-const worldsRouter = require('./Routes/Worlds');
-const alliancesRouter = require('./Routes/Alliances');
-const playersRouter = require('./Routes/Players');
-const citiesRouter = require('./Routes/Cities');
+import indexRouter from './Routes/index.js'
+import worldsRouter from './Routes/Worlds.js'
+import alliancesRouter from './Routes/Alliances.js'
+import playersRouter from './Routes/Players.js'
+import citiesRouter from './Routes/Cities.js'
 
 const app = express();
 
@@ -45,4 +45,4 @@ app.use(function (err, req, res, next) {
   });
 });
 
-module.exports = app;
+export default app

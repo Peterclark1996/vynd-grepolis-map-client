@@ -1,6 +1,7 @@
-const app = require('./Server/ApiApp');
-const debug = require('debug')('api:server');
-const http = require('http');
+import app from './Server/ApiApp.js'
+import http from 'http'
+import debugLib from 'debug'
+const debug = debugLib('api:server')
 
 const port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
