@@ -1,18 +1,20 @@
 import { GetFromStore, PutInStore } from "./RepositoryF.js"
 import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from "./TimeF.js"
+import World from './Models/World.js'
+import { Log } from './LogF.js'
 
-export const GetLiveWorldState = (code) => {
-    if (IsOutOfDate(GetFromStore(code))) {
+export const GetLiveWorldState = async (code) => {
+    if (IsOutOfDate(await GetFromStore(code))) {
         PutInStore(code, PullFromWorldGrepolis(code))
     }
-
-    const world = GetFromStore(code)
-    return world
+    return await GetFromStore(code)
 }
 
 const PullFromWorldGrepolis = (code) => {
     //TODO Grab from grepolis endpoint
-    return {
+    Log("Fetching world [" + code + "] from Grepolis")
+    return new World({
+        code: code,
         datetime: GetCurrentSecondsSinceEpoch(),
         alliances: [{
             id: 0,
@@ -58,5 +60,5 @@ const PullFromWorldGrepolis = (code) => {
             x: 3,
             y: 3
         }]
-    }
+    })
 }

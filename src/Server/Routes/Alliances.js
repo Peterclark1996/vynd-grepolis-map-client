@@ -9,7 +9,8 @@ router.get('/', function (req, res, next) {
         return
     }
 
-    res.send(GetLiveWorldState(world).alliances)
+    GetLiveWorldState(world)
+        .then(worldState => res.send(worldState.alliances))
 });
 
 export default router
