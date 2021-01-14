@@ -7,24 +7,14 @@ function Map({ world }) {
     const [worldState, setWorldState] = React.useState({
         alliances: [],
         players: [],
-        cities: []
+        cities: [],
+        islands: []
     })
 
     React.useEffect(() => {
         if (world == null || world.name == null || world.code == null) return
-
-        const alliancesPromise = Call('alliances', { world: world.code })
-        const playersPromise = Call('players', { world: world.code })
-        const citiesPromise = Call('cities', { world: world.code })
-
-        Promise.all([alliancesPromise, playersPromise, citiesPromise])
-            .then(values => {
-                setWorldState({
-                    alliances: values[0],
-                    players: values[1],
-                    cities: values[2]
-                })
-            })
+        Call('getWorldData', { world: world.code })
+            .then(worldData => setWorldState(worldData))
     }, [world]);
 
     return (

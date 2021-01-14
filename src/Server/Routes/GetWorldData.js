@@ -10,7 +10,12 @@ router.get('/', function (req, res, next) {
     }
 
     GetLiveWorldState(world)
-        .then(worldState => res.send(worldState.players))
+        .then(worldState => res.send({
+            alliances: worldState.alliances,
+            players: worldState.players,
+            cities: worldState.cities,
+            islands: worldState.islands
+        }))
 });
 
 export default router

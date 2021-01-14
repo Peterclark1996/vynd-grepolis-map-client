@@ -9,7 +9,7 @@ function App() {
   const [worldList, setWorldList] = React.useState([])
 
   React.useEffect(() => {
-    Call('worlds')
+    Call('getWorlds')
       .then(setWorldList)
   }, []);
 

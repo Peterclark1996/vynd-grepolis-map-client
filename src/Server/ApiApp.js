@@ -10,10 +10,8 @@ import { GetConfigDatasourceUrl, IsProduction } from './ConfigF.js'
 import { Log, LogError } from './LogF.js'
 
 import indexRouter from './Routes/index.js'
-import worldsRouter from './Routes/Worlds.js'
-import alliancesRouter from './Routes/Alliances.js'
-import playersRouter from './Routes/Players.js'
-import citiesRouter from './Routes/Cities.js'
+import getWorldsRouter from './Routes/GetWorlds.js'
+import getWorldDataRouter from './Routes/GetWorldData.js'
 
 const app = express();
 
@@ -28,10 +26,8 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, '../../public')));
 
 app.use('/', indexRouter);
-app.use('/worlds', worldsRouter);
-app.use('/alliances', alliancesRouter);
-app.use('/players', playersRouter);
-app.use('/cities', citiesRouter);
+app.use('/getWorlds', getWorldsRouter);
+app.use('/getWorldData', getWorldDataRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
