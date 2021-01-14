@@ -6,21 +6,22 @@ var cache = {}
 
 export const GetFromStore = async (code) => {
     if (cache[code] == null) {
-        const worldStateList = await World.find({ code: code })
-        if (worldStateList.length > 0) {
-            try {
+        try {
+            const worldStateList = await World.find({ code: code })
+            if (worldStateList.length > 0) {
                 const worldState = GetLatestWorld(worldStateList)
                 Log("Retrieved world [" + worldState.code + "] from datasource")
                 cache[code] = worldState
-            } catch {
-                cache[code] = new World({
-                    code: code,
-                    datetime: GetCurrentSecondsSinceEpoch(),
-                    alliances: [],
-                    players: [],
-                    cities: []
-                })
             }
+        } catch {
+            Log("Failed to retrieved world [" + worldState.code + "] from datasource")
+            cache[code] = new World({
+                code: code,
+                datetime: GetCurrentSecondsSinceEpoch(),
+                alliances: [],
+                players: [],
+                cities: []
+            })
         }
     }
     return cache[code]
@@ -33,9 +34,13 @@ export const PutInStore = (code, worldState) => {
 
     cache[code] = worldState
 
-    worldState.save((error, document) => {
-        (error) ? LogError(error) : Log("Inserted world [" + document.code + "] to datasource")
-    })
+    try {
+        worldState.save((error, document) => {
+            (error) ? LogError(error) : Log("Inserted world [" + document.code + "] to datasource")
+        })
+    } catch (error) {
+        LogError(error)
+    }
 }
 
 const GetLatestWorld = (worldStateList) => {

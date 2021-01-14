@@ -8,6 +8,7 @@ const worldSchema = new Schema({
     alliances: Array,
     players: Array,
     cities: Array,
+    islands: Array,
 })
 
-export default mongoose.model('Character', worldSchema)
+export default mongoose.model('World', worldSchema)
