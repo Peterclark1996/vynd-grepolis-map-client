@@ -3,8 +3,8 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const worldSchema = new Schema({
-    code: String,
-    datetime: Number,
+    code: { type: String, required: true, index: true, unique: true },
+    datetime: { type: Number, required: true },
     alliances: Array,
     players: Array,
     cities: Array,

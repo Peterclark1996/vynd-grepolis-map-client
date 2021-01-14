@@ -27,26 +27,23 @@ export const GetFromStore = async (code) => {
     return cache[code]
 }
 
-export const PutInStore = (code, worldState) => {
+export const PutInStore = async (code, worldState) => {
     if (!IsOutOfDate(GetFromStore(code))) {
         return
     }
 
     cache[code] = worldState
 
-    try {
-        worldState.save((error, document) => {
-            (error) ? LogError(error) : Log("Inserted world [" + document.code + "] to datasource")
-        })
-    } catch (error) {
-        LogError(error)
-    }
+    // TODO Make this atomic or similar to stop multiple calls to the datastore with potential duplicate key errors
+    World.deleteMany({ code: code })
+        .then(worldState.save((error, document) => (error) ? LogError(error) : Log("Inserted world [" + document.code + "] to datasource")))
+        .catch((error) => LogError(error))
 }
 
 const GetLatestWorld = (worldStateList) => {
     let currentLatest = null
     worldStateList.forEach(world => {
         if (currentLatest == null || world.datetime > currentLatest.datetime) currentLatest = world
-    });
+    })
     return currentLatest
 }

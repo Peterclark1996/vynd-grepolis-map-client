@@ -1,18 +1,18 @@
 import { GetFromStore, PutInStore } from "./RepositoryF.js"
 import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from "./TimeF.js"
 import World from './Models/World.js'
-import { Log, LogError } from './LogF.js'
+import { Log } from './LogF.js'
 import { RequestAllianceData, RequestPlayerData, RequestCityData, RequestIslandData } from './GrepolisF.js'
 
 export const GetLiveWorldState = async (code) => {
-    // TODO Make this atomic or similar to stop multiple calls to the datastore/grepolis at once 
     if (IsOutOfDate(await GetFromStore(code))) {
-        PutInStore(code, await PullWorldDataFromGrepolis(code))
+        await PutInStore(code, await PullWorldDataFromGrepolis(code))
     }
     return await GetFromStore(code)
 }
 
 const PullWorldDataFromGrepolis = async (code) => {
+    // TODO Make this atomic or similar to stop multiple calls to the grepolis at once 
     Log("Fetching world [" + code + "] from Grepolis")
     return new World({
         code: code,
