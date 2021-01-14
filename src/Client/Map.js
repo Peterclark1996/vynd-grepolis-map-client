@@ -14,7 +14,14 @@ function Map({ world }) {
     React.useEffect(() => {
         if (world == null || world.name == null || world.code == null) return
         Call('getWorldData', { world: world.code })
-            .then(worldData => setWorldState(worldData))
+            .then(worldData => {
+                setWorldState({
+                    alliances: worldData.alliances.sort((a, b) => { return b.points - a.points }).slice(0, 20),
+                    players: worldData.players,
+                    cities: worldData.cities,
+                    islands: worldData.islands
+                })
+            })
     }, [world]);
 
     return (
