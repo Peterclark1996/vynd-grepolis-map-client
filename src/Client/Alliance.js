@@ -8,8 +8,8 @@ function Alliance({ state, alliance }) {
             <LayerGroup>
                 {
                     state.players
-                        .filter((p) => p.alliance === alliance.id)
-                        .map((p) => {
+                        .filter(p => p.alliance === alliance.id)
+                        .map(p => {
                             return <Player key={p.id} state={state} player={p} alliance={alliance} />
                         })
                 }

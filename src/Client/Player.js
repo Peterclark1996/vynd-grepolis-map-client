@@ -6,9 +6,9 @@ function Player({ state, player, alliance }) {
         <>
             {
                 state.cities
-                    .filter((c) => c.playerId === player.id)
-                    .map((c) => {
-                        return <City key={c.id} state={state} city={c} player={player} alliance={alliance} />
+                    .filter(c => c.playerId === player.id)
+                    .map(c => {
+                        return <City key={c.id} city={c} player={player} alliance={alliance} />
                     })
             }
         </>

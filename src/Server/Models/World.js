@@ -7,8 +7,7 @@ const worldSchema = new Schema({
     datetime: { type: Number, required: true },
     alliances: Array,
     players: Array,
-    cities: Array,
-    islands: Array,
+    cities: Array
 })
 
 export default mongoose.model('World', worldSchema)

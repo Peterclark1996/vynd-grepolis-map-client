@@ -1,13 +1,8 @@
-export const GetCityOffsetForIsland = (islandType, position) => {
-    const row = islandPositioningMatrix.filter(r => r[0] === islandType).filter(r => r[3] === position)[0]
+export const IslandMaxSpots = [
+    0, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 7, 7, 11, 7, 8, 13, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 9, 8, 9, 10, 8, 10, 11, 10, 9, 10, 8, 6, 8, 9,
+]
 
-    return {
-        x: Number(row[1]),
-        y: Number(row[2])
-    }
-}
-
-const islandPositioningMatrix = [
+export const IslandPositioningMatrix = [
     [1, 451, 130, 0],
     [1, 351, 168, 1],
     [1, 261, 230, 2],

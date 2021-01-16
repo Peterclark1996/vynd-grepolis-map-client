@@ -13,8 +13,7 @@ router.get('/', function (req, res, next) {
         .then(worldState => res.send({
             alliances: worldState.alliances,
             players: worldState.players,
-            cities: worldState.cities,
-            islands: worldState.islands
+            cities: worldState.cities
         }))
 });
 
