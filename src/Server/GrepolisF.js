@@ -57,7 +57,7 @@ export const RequestCityData = async (code) => {
                     name: CleanName(values[2]),
                     islandX: Number(values[3]),
                     islandY: Number(values[4]),
-                    numberOnIsland: Number(values[5]),
+                    posOnIsland: Number(values[5]),
                     points: Number(values[6])
                 })
             });
