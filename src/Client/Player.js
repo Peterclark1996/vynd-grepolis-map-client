@@ -5,7 +5,7 @@ function Player({ state, player, alliance }) {
     return (
         <>
             {
-                state.cities.slice(0, 50)
+                state.cities
                     .filter(c => c.playerId === player.id)
                     .map(c => {
                         return <City key={c.id} city={c} player={player} alliance={alliance} />

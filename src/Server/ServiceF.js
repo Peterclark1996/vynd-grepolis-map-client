@@ -22,11 +22,18 @@ const PullWorldDataFromGrepolis = async (code) => {
     const islandData = await RequestIslandData(code)
 
     const cityOffsetRatio = 0.006
+    const cityMaxSize = 0.25
+    const cityMinSize = 0.05
+    const cityMaxPoints = 17786
     cityData.forEach(city => {
         const island = islandData.filter(i => i.x === city.islandX && i.y === city.islandY)[0]
         const offset = GetCityOffsetForIsland(island.islandType, city.posOnIsland)
-        city.x = city.islandX + offset.x * cityOffsetRatio
-        city.y = city.islandY + offset.y * cityOffsetRatio
+
+        //Perform transforms because leaflet and grepolis cant agree on which axis is which
+        city.x = 1000 - city.islandY + offset.y * cityOffsetRatio
+        city.y = city.islandX + offset.x * cityOffsetRatio
+
+        city.size = cityMinSize + ((cityMaxSize - cityMinSize) * (city.points / cityMaxPoints))
     })
 
     return new World({
