@@ -3,7 +3,7 @@ import { Circle, Popup } from "react-leaflet";
 
 function City({ city, player, alliance }) {
     return (
-        <Circle center={[city.x, city.y]} color={alliance.colour} radius={200}>
+        <Circle center={[city.x, city.y]} color={alliance.colour} radius={1}>
             <Popup>
                 {city.name}<br />
                 {player.name}<br />
