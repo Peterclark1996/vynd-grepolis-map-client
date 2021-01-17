@@ -1,7 +1,7 @@
 import { GetFromStore, PutInStore } from "./RepositoryF.js"
 import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from "./TimeF.js"
 import World from './Models/World.js'
-import { Log, LogError } from './LogF.js'
+import { Log } from './LogF.js'
 import { RequestAllianceData, RequestPlayerData, RequestCityData, RequestIslandData, GetCityOffsetForIsland, GetMaxSpotsForIsland } from './GrepolisF.js'
 
 export const GetLiveWorldState = async (code) => {
@@ -16,7 +16,12 @@ const PullWorldDataFromGrepolis = async (code) => {
     // TODO Make this atomic or similar to stop multiple calls to the grepolis at once 
     Log("Fetching world [" + code + "] from Grepolis")
 
-    const allianceData = await RequestAllianceData(code)
+    const allianceColourHexList = ["#FF0000", "#8B5A00", "#FFC125", "#FFFF00", "#3D9140", "#00F5FF", "#0000FF", "#8470FF", "#4B0082", "#FF3E96", "#00FF00", "#808000", "#FFB6C1", "#8DB6CD", "#CD69C9", "#8B8989", "#bfa16d", "#a2e800", "#008dd4", "#b33030", "#306b56", "#61c9bb", "#6bb048", "#c95700"]
+    const allianceData = (await RequestAllianceData(code)).sort((a, b) => { return b.points - a.points }).slice(0, allianceColourHexList.length)
+    for (let i = 0; i < allianceData.length; i++) {
+        allianceData[i].colour = allianceColourHexList[i]
+    }
+
     const playerData = await RequestPlayerData(code)
     const cityData = await RequestCityData(code)
     const islandData = await RequestIslandData(code)

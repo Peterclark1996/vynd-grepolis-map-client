@@ -16,7 +16,7 @@ function Map({ world }) {
         Call('getWorldData', { world: world.code })
             .then(worldData => {
                 setWorldState({
-                    alliances: worldData.alliances.sort((a, b) => { return b.points - a.points }).slice(0, 20),
+                    alliances: worldData.alliances,
                     players: worldData.players,
                     cities: worldData.cities
                 })

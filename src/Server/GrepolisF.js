@@ -15,8 +15,7 @@ export const RequestAllianceData = async (code) => {
                         points: Number(values[2]),
                         cities: Number(values[3]),
                         players: Number(values[4]),
-                        rank: Number(values[5]),
-                        colour: "#8B5A00"
+                        rank: Number(values[5])
                     })
                 }
             });
