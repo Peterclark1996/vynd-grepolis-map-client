@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { MapContainer, LayersControl } from "react-leaflet"
+import { MapContainer, LayerGroup, ImageOverlay } from "react-leaflet"
 import L from "leaflet"
 import Call from './Api'
 import Alliance from './Alliance'
@@ -15,6 +15,8 @@ function Map({ world, setIsWorldLoading }) {
         cities: []
     })
 
+    const gridUrl = process.env.PUBLIC_URL + '/grid.png'
+
     React.useEffect(() => {
         if (world == null || world.name == null || world.code == null) return
         setIsWorldLoading(true)
@@ -27,7 +29,7 @@ function Map({ world, setIsWorldLoading }) {
                 })
                 setIsWorldLoading(false)
             })
-    }, [world]);
+    }, [world, setIsWorldLoading]);
 
     return (
         <Container>
@@ -37,11 +39,12 @@ function Map({ world, setIsWorldLoading }) {
                 </Col>
                 <Col>
                     <MapContainer center={[500, 500]} zoom={1} scrollWheelZoom={true} bounds={[[1000, 0], [0, 1000]]} crs={L.CRS.Simple} minZoom={0} maxZoom={10}>
-                        <LayersControl>
-                            {worldState.alliances.map(a => {
-                                return <Alliance key={a.id} state={worldState} alliance={a} />
-                            })}
-                        </LayersControl>
+                        <LayerGroup>
+                            <ImageOverlay bounds={[[1000, 0], [0, 1000]]} url={gridUrl} />
+                        </LayerGroup>
+                        {worldState.alliances.map(a => {
+                            return <Alliance key={a.id} state={worldState} alliance={a} />
+                        })}
                     </MapContainer>
                 </Col>
             </Row>
