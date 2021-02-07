@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-function Map({ world }) {
+function Map({ world, setIsWorldLoading }) {
     const [worldState, setWorldState] = React.useState({
         alliances: [],
         players: [],
@@ -17,6 +17,7 @@ function Map({ world }) {
 
     React.useEffect(() => {
         if (world == null || world.name == null || world.code == null) return
+        setIsWorldLoading(true)
         Call('getWorldData', { world: world.code })
             .then(worldData => {
                 setWorldState({
@@ -24,6 +25,7 @@ function Map({ world }) {
                     players: worldData.players,
                     cities: worldData.cities
                 })
+                setIsWorldLoading(false)
             })
     }, [world]);
 
