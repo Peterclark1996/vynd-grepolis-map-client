@@ -32,9 +32,9 @@ function Map({ world, setIsWorldLoading }) {
     }, [world, setIsWorldLoading]);
 
     return (
-        <Container>
+        <Container fluid>
             <Row>
-                <Col>
+                <Col style={{ "max-width": "350px" }}>
                     <Legend alliances={worldState.alliances} />
                 </Col>
                 <Col>
