@@ -99,7 +99,7 @@ export const GetCityOffsetForIsland = (islandType, position) => {
     const row = IslandPositioningMatrix.filter(r => r[0] === islandType).filter(r => r[3] === position)[0]
     return {
         x: Number(row[1]),
-        y: Number(row[2])
+        y: -Number(row[2])
     }
 }
 

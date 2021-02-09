@@ -28,7 +28,7 @@ const PullWorldDataFromGrepolis = async (code) => {
 
     const cityOffsetRatio = 0.006
     const cityMaxSize = 0.25
-    const cityMinSize = 0.05
+    const cityMinSize = 0.1
     const cityMaxPoints = 17786
     cityData.forEach(city => {
         const island = islandData.filter(i => i.x === city.islandX && i.y === city.islandY)[0]
