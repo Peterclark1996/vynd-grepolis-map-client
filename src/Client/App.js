@@ -3,11 +3,35 @@ import './App.css';
 import Call from './Api'
 import Map from './Map'
 import WorldPicker from './WorldPicker'
+import Legend from './Legend'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 function App() {
   const [isWorldLoading, setIsWorldLoading] = React.useState(false)
-  const [world, setWorld] = React.useState()
   const [worldList, setWorldList] = React.useState([])
+
+  const [selectedWorld, setSelectedWorld] = React.useState()
+  const [worldState, setWorldState] = React.useState({
+    alliances: [],
+    players: [],
+    cities: []
+  })
+
+  React.useEffect(() => {
+    if (selectedWorld == null || selectedWorld.name == null || selectedWorld.code == null) return
+    setIsWorldLoading(true)
+    Call('getWorldData', { world: selectedWorld.code })
+      .then(worldData => {
+        setWorldState({
+          alliances: worldData.alliances,
+          players: worldData.players,
+          cities: worldData.cities
+        })
+        setIsWorldLoading(false)
+      })
+  }, [selectedWorld, setIsWorldLoading]);
 
   React.useEffect(() => {
     Call('getWorlds')
@@ -17,29 +41,20 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <WorldPicker world={world} worldList={worldList} setWorld={setWorld} isWorldLoading={isWorldLoading} />
-        {world ? <Map world={world} setIsWorldLoading={setIsWorldLoading} /> : <></>}
+        <Container fluid>
+          <Row>
+            <Col style={{ "max-width": "350px" }}>
+              <WorldPicker world={selectedWorld} worldList={worldList} setSelectedWorld={setSelectedWorld} isWorldLoading={isWorldLoading} />
+              {isWorldLoading || worldState.alliances.length === 0 ? <></> : <Legend alliances={worldState.alliances} />}
+            </Col>
+            <Col>
+              <Map world={worldState} />
+            </Col>
+          </Row>
+        </Container>
       </header>
     </div>
   );
 }
 
 export default App;
-
-{/* <Container fluid>
-    <Row>
-        <Col style={{ "max-width": "350px" }}>
-            <Legend alliances={worldState.alliances} />
-        </Col>
-        <Col>
-            <MapContainer center={[500, 500]} zoom={1} scrollWheelZoom={true} bounds={[[1000, 0], [0, 1000]]} crs={L.CRS.Simple} minZoom={0} maxZoom={10}>
-                <LayerGroup>
-                    <ImageOverlay bounds={[[1000, 0], [0, 1000]]} url={gridUrl} />
-                </LayerGroup>
-                {worldState.alliances.map(a => {
-                    return <Alliance key={a.id} state={worldState} alliance={a} />
-                })}
-            </MapContainer>
-        </Col>
-    </Row>
-</Container> */}
