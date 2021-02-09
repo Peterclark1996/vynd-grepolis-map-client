@@ -7,7 +7,7 @@ function Map({ world }) {
     const gridUrl = process.env.PUBLIC_URL + '/grid.png'
 
     return (
-        <MapContainer center={[500, 500]} zoom={1} scrollWheelZoom={true} bounds={[[1000, 0], [0, 1000]]} crs={L.CRS.Simple} minZoom={0} maxZoom={10}>
+        <MapContainer center={[500, 500]} zoom={2} scrollWheelZoom={true} bounds={[[1000, 0], [0, 1000]]} crs={L.CRS.Simple} minZoom={0} maxZoom={10}>
             <LayerGroup>
                 <ImageOverlay bounds={[[1000, 0], [0, 1000]]} url={gridUrl} />
             </LayerGroup>
