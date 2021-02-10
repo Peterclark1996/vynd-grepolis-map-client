@@ -45,7 +45,7 @@ function App() {
           <Row>
             <Col style={{ "max-width": "350px" }}>
               <WorldPicker world={selectedWorld} worldList={worldList} setSelectedWorld={setSelectedWorld} isWorldLoading={isWorldLoading} />
-              {isWorldLoading || worldState.alliances.length === 0 ? <></> : <Legend alliances={worldState.alliances} />}
+              {isWorldLoading || worldState.alliances.length === 0 ? <></> : <Legend alliances={worldState.alliances.slice(0, 24)} />}
             </Col>
             <Col>
               <Map world={worldState} />
