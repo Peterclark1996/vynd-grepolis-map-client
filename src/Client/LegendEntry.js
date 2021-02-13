@@ -22,7 +22,7 @@ const LegendEntry = ({ alliance, position, mapRef }) => {
     return (
         <div>
             <Form.Check inline id={checkboxName} onChange={onChange} checked={checked} />
-            {displayName}
+            <b style={{ "color": alliance.colour, "fontSize": "large" }}>{displayName}</b>
         </div>
     )
 };
