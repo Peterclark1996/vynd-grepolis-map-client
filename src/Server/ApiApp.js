@@ -1,5 +1,4 @@
 import express from 'express'
-import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import createError from 'http-errors'
@@ -9,7 +8,7 @@ import mongoose from 'mongoose'
 import { GetConfigDatasourceUrl, IsProduction } from './ConfigF.js'
 import { Log, LogError } from './LogF.js'
 
-import indexRouter from './Routes/index.js'
+import indexRouter from './Routes/Index.js'
 import getWorldsRouter from './Routes/GetWorlds.js'
 import getWorldDataRouter from './Routes/GetWorldData.js'
 
@@ -22,19 +21,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//TODO Stop express picking up /public/index.html as a base page
-//app.use(express.static(path.join(__dirname, '../../public')));
-
 app.use('/', indexRouter);
 app.use('/getWorlds', getWorldsRouter);
 app.use('/getWorldData', getWorldDataRouter);
 
-// catch 404 and forward to error handler
+app.use('/grepolis-live-map', express.static(process.cwd() + '/build'))
+
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = IsProduction() ? {} : err
@@ -45,7 +41,6 @@ app.use(function (err, req, res, next) {
   });
 });
 
-// connect to datastore and setup mongoose
 mongoose.set('useCreateIndex', true)
 const url = GetConfigDatasourceUrl()
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
