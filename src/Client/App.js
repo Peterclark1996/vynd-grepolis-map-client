@@ -8,16 +8,30 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+const MapLayersContext = React.createContext()
+
+function MapLayersProvider(props) {
+  const [mapLayers, setMapLayers] = React.useState([])
+  const value = [mapLayers, setMapLayers]
+  return <MapLayersContext.Provider value={value} {...props} />
+}
+
+export function useMapLayers() {
+  return React.useContext(MapLayersContext)
+}
+
 function App() {
-  const [isWorldLoading, setIsWorldLoading] = React.useState(false)
   const [worldList, setWorldList] = React.useState([])
 
   const [selectedWorld, setSelectedWorld] = React.useState()
+  const [isWorldLoading, setIsWorldLoading] = React.useState(false)
   const [worldState, setWorldState] = React.useState({
     alliances: [],
     players: [],
     cities: []
   })
+
+  const [map, setMap] = React.useState(null)
 
   React.useEffect(() => {
     if (selectedWorld == null || selectedWorld.name == null || selectedWorld.code == null) return
@@ -41,17 +55,19 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Container fluid>
-          <Row>
-            <Col style={{ "max-width": "350px" }}>
-              <WorldPicker world={selectedWorld} worldList={worldList} setSelectedWorld={setSelectedWorld} isWorldLoading={isWorldLoading} />
-              {isWorldLoading || worldState.alliances.length === 0 ? <></> : <Legend alliances={worldState.alliances.slice(0, 24)} />}
-            </Col>
-            <Col>
-              <Map world={worldState} />
-            </Col>
-          </Row>
-        </Container>
+        <MapLayersProvider>
+          <Container fluid>
+            <Row>
+              <Col style={{ "max-width": "350px" }}>
+                <WorldPicker world={selectedWorld} worldList={worldList} setSelectedWorld={setSelectedWorld} isWorldLoading={isWorldLoading} />
+                {isWorldLoading || worldState.alliances.length === 0 ? <></> : <Legend alliances={worldState.alliances.slice(0, 24)} map={map} />}
+              </Col>
+              <Col>
+                <Map world={worldState} setMap={setMap} />
+              </Col>
+            </Row>
+          </Container>
+        </MapLayersProvider>
       </header>
     </div>
   );

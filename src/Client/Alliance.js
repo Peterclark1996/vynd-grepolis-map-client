@@ -1,10 +1,23 @@
 import * as React from 'react'
 import { LayerGroup } from "react-leaflet";
 import Player from './Player'
+import { useMapLayers } from './App'
 
 function Alliance({ state, alliance }) {
+    const layerRef = React.useRef()
+
+    const [, setMapLayers] = useMapLayers()
+    React.useEffect(() => {
+        setMapLayers(mapLayers => {
+            return (mapLayers.concat([{
+                id: alliance.id,
+                ref: layerRef
+            }]))
+        })
+    }, [])
+
     return (
-        <LayerGroup>
+        <LayerGroup ref={layerRef}>
             {
                 state.players
                     .filter(p => p.alliance === alliance.id)
