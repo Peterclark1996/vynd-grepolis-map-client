@@ -31,10 +31,8 @@
     "build-client": "react-scripts build",
     "test-client": "react-scripts test",
     "eject-client": "react-scripts eject",
-    "publish-client": "gh-pages -d build",
-    "deploy": "npm run build-client & npm run publish-client",
-    "start-api": "nodemon ./src/server",
-    "start-api-prod": "node ./src/server",
+    "start": "nodemon ./src/server",
+    "start-prod": "node ./src/server",
     "heroku-postbuild": "npm run build-client"
   },
   "eslintConfig": {
