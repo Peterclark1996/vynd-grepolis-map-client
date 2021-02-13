@@ -58,11 +58,11 @@ function App() {
         <MapLayersProvider>
           <Container fluid>
             <Row>
-              <Col style={{ "max-width": "350px" }}>
+              <Col style={{ "maxWidth": "350px" }}>
                 <WorldPicker world={selectedWorld} worldList={worldList} setSelectedWorld={setSelectedWorld} isWorldLoading={isWorldLoading} />
                 {isWorldLoading || worldState.alliances.length === 0 ? <></> : <Legend alliances={worldState.alliances.slice(0, 24)} map={map} />}
               </Col>
-              <Col>
+              <Col style={{ "padding": "0px 0px 0px 0px" }}>
                 <Map world={worldState} setMap={setMap} />
               </Col>
             </Row>

@@ -14,7 +14,7 @@ function Alliance({ state, alliance }) {
                 ref: layerRef
             }]))
         })
-    }, [])
+    }, [setMapLayers, alliance.id])
 
     return (
         <LayerGroup ref={layerRef}>
