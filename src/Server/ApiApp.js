@@ -12,6 +12,8 @@ import indexRouter from './Routes/Index.js'
 import getWorldsRouter from './Routes/GetWorlds.js'
 import getWorldDataRouter from './Routes/GetWorldData.js'
 
+Log('Starting API')
+
 const app = express();
 
 app.use(cors());
@@ -21,11 +23,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+Log('Adding routes')
+
 app.use('/', indexRouter);
 app.use('/getWorlds', getWorldsRouter);
 app.use('/getWorldData', getWorldDataRouter);
 
-//app.use('/grepolis-live-map', express.static('./build'))
+app.use('/grepolis-live-map', express.static('./build'))
+
+Log('Adding middleware')
 
 app.use(function (req, res, next) {
   next(createError(404));
@@ -41,6 +47,7 @@ app.use(function (err, req, res, next) {
   });
 });
 
+Log('MongoDB connecting...')
 mongoose.set('useCreateIndex', true)
 const url = GetConfigDatasourceUrl()
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
