@@ -8,12 +8,12 @@ function Alliance({ state, alliance }) {
 
     const [, setMapLayers] = useMapLayers()
     React.useEffect(() => {
-        setMapLayers(mapLayers => {
-            return (mapLayers.concat([{
+        setMapLayers(mapLayers =>
+            mapLayers.concat([{
                 id: alliance.id,
                 ref: layerRef
-            }]))
-        })
+            }])
+        )
     }, [setMapLayers, alliance.id])
 
     return (

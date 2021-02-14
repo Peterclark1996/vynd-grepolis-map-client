@@ -12,6 +12,13 @@ const LegendEntry = ({ alliance, position, mapRef }) => {
     const onChange = () => {
         setchecked(!checked)
         const allianceLayer = mapLayers.filter(l => l.id === alliance.id)[0]
+
+        //TODO Fix this source of this. allianceLayer should always have a ref
+        if (!allianceLayer) {
+            console.log(`Failed to toggle alliance with id: ${alliance.id}. Refresh your page to fix`)
+            return
+        }
+
         if (!checked) {
             mapRef.addLayer(allianceLayer.ref.current)
         } else {
