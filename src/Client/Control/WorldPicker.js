@@ -11,7 +11,7 @@ function WorldPicker({ world, worldList, setSelectedWorld, isWorldLoading }) {
         <div>
             { isWorldListLoading || isWorldLoading ?
                 <Spinner animation="border" variant="primary" /> :
-                <DropdownButton id="dropdown-basic-button" title={WorldToDisplay(world)}>
+                <DropdownButton style={{ "padding": "10px 10px 10px 10px" }} id="dropdown-basic-button" title={WorldToDisplay(world)}>
                     {worldList.map((w) => {
                         return <Dropdown.Item key={w.code} onClick={() => setSelectedWorld(w)}>{WorldToDisplay(w)}</Dropdown.Item>
                     })}
