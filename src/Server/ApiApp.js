@@ -8,7 +8,7 @@ import mongoose from 'mongoose'
 import { GetConfigDatasourceUrl, IsProduction } from './ConfigF.js'
 import { Log, LogError } from './LogF.js'
 
-import indexRouter from './Routes/Index.js'
+import indexRouter from './Routes/index.js'
 import getWorldsRouter from './Routes/GetWorlds.js'
 import getWorldDataRouter from './Routes/GetWorldData.js'
 
