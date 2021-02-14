@@ -17,12 +17,13 @@ const PullWorldDataFromGrepolis = async (code) => {
     Log("Fetching world [" + code + "] from Grepolis")
 
     try {
-        const allianceColourHexList = ["#FF0000", "#8B5A00", "#FFC125", "#3D9140", "#00F5FF", "#0000FF", "#8470FF", "#4B0082", "#FF3E96", "#00FF00", "#808000", "#FFB6C1", "#8DB6CD", "#CD69C9", "#FFFF00", "#c95700", "#bfa16d", "#a2e800", "#008dd4", "#b33030", "#306b56", "#61c9bb", "#6bb048", "#8B8989"]
+        const allianceColourHexList = ["#FF0000", "#8B5A00", "#FFC125", "#3D9140", "#00F5FF", "#0000FF", "#8470FF", "#4B0082", "#FF3E96", "#00FF00", "#808000", "#FFB6C1", "#8DB6CD", "#CD69C9", "#FFFF00", "#c95700", "#bfa16d", "#a2e800", "#008dd4", "#b33030", "#306b56", "#61c9bb", "#6bb048", "#365a6e"]
+        const allianceColourHexGrey = "#8B8989"
         const allianceData = (await RequestAllianceData(code)).sort((a, b) => { return b.points - a.points })
 
         allianceData.push({
             id: 0,
-            name: '',
+            name: '_noAlliance',
             points: 0,
             cities: 0,
             players: 0,
@@ -30,7 +31,7 @@ const PullWorldDataFromGrepolis = async (code) => {
         })
 
         allianceData.forEach(a => {
-            a.colour = allianceColourHexList[allianceColourHexList.length - 1]
+            a.colour = allianceColourHexGrey
         })
 
         for (let i = 0; i < allianceColourHexList.length - 1; i++) {
