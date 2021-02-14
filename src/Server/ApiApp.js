@@ -29,7 +29,8 @@ app.use('/', indexRouter);
 app.use('/getWorlds', getWorldsRouter);
 app.use('/getWorldData', getWorldDataRouter);
 
-app.use('/grepolis-live-map', express.static('./build'))
+
+app.use('/grepolis-live-map', express.static(IsProduction() ? '../../build' : './build'))
 
 Log('Adding middleware')
 
