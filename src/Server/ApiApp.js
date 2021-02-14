@@ -30,6 +30,7 @@ app.use('/getWorlds', getWorldsRouter);
 app.use('/getWorldData', getWorldDataRouter);
 
 app.use('/grepolis-live-map', express.static('./build'))
+app.use('/', express.static('./build'))
 
 Log('Adding middleware')
 
