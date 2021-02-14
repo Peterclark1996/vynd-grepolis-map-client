@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Form from 'react-bootstrap/Form'
-import { useMapLayers } from './App'
+import * as MapLayers from '../Context/MapLayerContext'
 
 const LegendEntry = ({ alliance, position, mapRef }) => {
     const [checked, setchecked] = React.useState(true)
@@ -8,7 +8,7 @@ const LegendEntry = ({ alliance, position, mapRef }) => {
     const checkboxName = "checkbox" + alliance.id
     const displayName = position + ": " + alliance.name
 
-    const [mapLayers] = useMapLayers()
+    const [mapLayers] = MapLayers.useMapLayers()
     const onChange = () => {
         setchecked(!checked)
         const allianceLayer = mapLayers.filter(l => l.id === alliance.id)[0]

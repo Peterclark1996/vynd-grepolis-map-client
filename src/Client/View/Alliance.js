@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { LayerGroup } from "react-leaflet";
 import Player from './Player'
-import { useMapLayers } from './App'
+import * as MapLayers from '../Context/MapLayerContext'
 
 function Alliance({ state, alliance }) {
     const layerRef = React.useRef()
 
-    const [, setMapLayers] = useMapLayers()
+    const [, setMapLayers] = MapLayers.useMapLayers()
     React.useEffect(() => {
         setMapLayers(mapLayers =>
             mapLayers.concat([{

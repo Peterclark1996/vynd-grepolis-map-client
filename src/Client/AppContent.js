@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Call from './Api'
-import Map from './Map'
-import WorldPicker from './WorldPicker'
-import Legend from './Legend'
+import Map from './View/Map'
+import WorldPicker from './Control/WorldPicker'
+import Legend from './Control/Legend'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { useMapLayers } from './App'
+import * as MapLayers from './Context/MapLayerContext'
 
 function AppContent() {
     const [worldList, setWorldList] = React.useState([])
@@ -21,7 +21,7 @@ function AppContent() {
 
     const [map, setMap] = React.useState(null)
 
-    const [, setMapLayers] = useMapLayers()
+    const [, setMapLayers] = MapLayers.useMapLayers()
 
     React.useEffect(() => {
         if (selectedWorld == null || selectedWorld.name == null || selectedWorld.code == null) return
@@ -48,7 +48,7 @@ function AppContent() {
             <Row>
                 <Col style={{ "maxWidth": "350px" }}>
                     <WorldPicker world={selectedWorld} worldList={worldList} setSelectedWorld={setSelectedWorld} isWorldLoading={isWorldLoading} />
-                    {isWorldLoading || worldState.alliances.length === 0 ? <></> : <Legend alliances={worldState.alliances.slice(0, 24)} map={map} />}
+                    {isWorldLoading || worldState.alliances.length === 0 ? <></> : <Legend alliances={worldState.alliances} map={map} />}
                 </Col>
                 <Col style={{ "padding": "0px 0px 0px 0px" }}>
                     <Map world={worldState} setMap={setMap} />

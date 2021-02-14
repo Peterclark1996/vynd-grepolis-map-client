@@ -1,26 +1,15 @@
 import * as React from 'react'
 import './App.css';
 import AppContent from './AppContent'
-
-const MapLayersContext = React.createContext()
-
-function MapLayersProvider(props) {
-  const [mapLayers, setMapLayers] = React.useState([])
-  const value = [mapLayers, setMapLayers]
-  return <MapLayersContext.Provider value={value} {...props} />
-}
-
-export function useMapLayers() {
-  return React.useContext(MapLayersContext)
-}
+import * as MapLayers from './Context/MapLayerContext'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <MapLayersProvider>
+        <MapLayers.MapLayersProvider>
           <AppContent />
-        </MapLayersProvider>
+        </MapLayers.MapLayersProvider>
       </header>
     </div>
   );
