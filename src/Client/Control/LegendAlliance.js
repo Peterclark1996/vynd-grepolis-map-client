@@ -16,7 +16,7 @@ const LegendAlliance = ({ alliance, position, mapRef }) => {
 
         //TODO Fix this source of this. allianceLayer should always have a ref
         if (!allianceLayer) {
-            console.log(`Failed to toggle alliance with id: ${alliance.id}. Refresh your page to fix`)
+            console.error(`Failed to toggle alliance with id: ${alliance.id}. Refresh your page to fix`)
             return
         }
 
