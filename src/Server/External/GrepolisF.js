@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { IslandPositioningMatrix, IslandMaxSpots } from './IslandConstants.js'
+import { IslandPositioningMatrix, IslandMaxSpots } from '../Constants/IslandConstants.js'
 
 export const RequestAllianceData = async (code) => {
     return fetch("https://" + code + ".grepolis.com/data/alliances.txt")

@@ -1,6 +1,6 @@
-import { IsOutOfDate } from "./TimeF.js"
-import World from './Models/World.js'
-import { Log, LogError } from './LogF.js'
+import { IsOutOfDate } from "../Util/TimeF.js"
+import World from '../Models/World.js'
+import { Log, LogError } from '../Util/LogF.js'
 
 var cache = {}
 
@@ -8,13 +8,15 @@ export const GetFromStore = async (code) => {
     if (cache[code] == null) {
         try {
             const worldStateList = await World.find({ code: code })
-            if (worldStateList.length > 0) {
-                const worldState = GetLatestWorld(worldStateList)
-                Log("Retrieved world [" + worldState.code + "] from datasource")
-                cache[code] = worldState
-            }
-        } catch {
-            Log("Failed to retrieved world [" + worldState.code + "] from datasource")
+
+            if (worldStateList.length == 0) throw new Error("Failed to retrieved world")
+
+            const worldState = GetLatestWorld(worldStateList)
+            Log("Retrieved world [" + worldState.code + "] from datasource")
+            cache[code] = worldState
+        } catch (error) {
+            Log("Failed to retrieved world [" + code + "] from datasource")
+            LogError(error)
             cache[code] = new World({
                 code: code,
                 datetime: GetCurrentSecondsSinceEpoch(),

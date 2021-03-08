@@ -1,8 +1,8 @@
-import { GetFromStore, PutInStore } from "./RepositoryF.js"
-import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from "./TimeF.js"
-import World from './Models/World.js'
-import { Log, LogError } from './LogF.js'
-import { RequestAllianceData, RequestPlayerData, RequestCityData, RequestIslandData, GetCityOffsetForIsland, GetMaxSpotsForIsland } from './GrepolisF.js'
+import { GetFromStore, PutInStore } from "../Repositories/WorldDataRepository.js"
+import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from "../Util/TimeF.js"
+import World from '../Models/World.js'
+import { Log, LogError } from '../Util/LogF.js'
+import { RequestAllianceData, RequestPlayerData, RequestCityData, RequestIslandData, GetCityOffsetForIsland } from '../External/GrepolisF.js'
 
 export const GetLiveWorldState = async (code) => {
     if (IsOutOfDate(await GetFromStore(code))) {
@@ -23,7 +23,7 @@ const PullWorldDataFromGrepolis = async (code) => {
 
         allianceData.push({
             id: 0,
-            name: '_noAlliance',
+            name: '',
             points: 0,
             cities: 0,
             players: 0,
@@ -62,7 +62,8 @@ const PullWorldDataFromGrepolis = async (code) => {
             datetime: GetCurrentSecondsSinceEpoch(),
             alliances: allianceData,
             players: playerData,
-            cities: cityData
+            cities: cityData,
+            islands: islandData
         })
     } catch (error) {
         LogError(`Failed to retrieve world '${code}' error: ${error}`)
@@ -72,6 +73,7 @@ const PullWorldDataFromGrepolis = async (code) => {
         datetime: GetCurrentSecondsSinceEpoch(),
         alliances: [],
         players: [],
-        cities: []
+        cities: [],
+        islands: []
     })
 }

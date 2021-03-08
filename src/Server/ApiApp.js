@@ -5,12 +5,13 @@ import createError from 'http-errors'
 import cors from 'cors'
 import mongoose from 'mongoose'
 
-import { GetConfigDatasourceUrl, IsProduction } from './ConfigF.js'
-import { Log, LogError } from './LogF.js'
+import { GetConfigDatasourceUrl, IsProduction } from './Util/ConfigF.js'
+import { Log, LogError } from './Util/LogF.js'
 
 import indexRouter from './Routes/index.js'
 import getWorldsRouter from './Routes/GetWorlds.js'
 import getWorldDataRouter from './Routes/GetWorldData.js'
+import getMapImageRouter from './Routes/GetMapImage.js'
 
 Log('Starting API')
 
@@ -28,12 +29,13 @@ Log('Adding routes')
 app.use('/', indexRouter);
 app.use('/getWorlds', getWorldsRouter);
 app.use('/getWorldData', getWorldDataRouter);
+app.use('/getMapImage', getMapImageRouter)
 
 if (IsProduction()) {
-  Log('Adding static to "/"')
+  Log('Adding static folder "/"')
   app.use('/', express.static('./build'))
 } else {
-  Log('Adding static to "/grepolis-live-map"')
+  Log('Adding static folder "/grepolis-live-map"')
   app.use('/grepolis-live-map', express.static('./build'))
 }
 
