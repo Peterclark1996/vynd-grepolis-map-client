@@ -1,5 +1,5 @@
 import Jimp from 'jimp'
-import { GetLiveWorldState } from "./WorldDataService.js"
+import { GetWorldDataFromStore } from "../Repositories/WorldDataRepository.js"
 import { GetIslandImage } from "../Constants/ImageConstants.js"
 import { GetMapImageFromStore, PutMapImageInStore } from "../Repositories/MapImageRepository.js"
 import { Log } from '../Util/LogF.js'
