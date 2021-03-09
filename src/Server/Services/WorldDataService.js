@@ -1,15 +1,15 @@
-import { GetFromStore, PutInStore } from "../Repositories/WorldDataRepository.js"
+import { GetWorldDataFromStore, PutWorldDataInStore } from "../Repositories/WorldDataRepository.js"
 import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from "../Util/TimeF.js"
 import World from '../Models/World.js'
 import { Log, LogError } from '../Util/LogF.js'
 import { RequestAllianceData, RequestPlayerData, RequestCityData, RequestIslandData, GetCityOffsetForIsland } from '../External/GrepolisF.js'
 
 export const GetLiveWorldState = async (code) => {
-    if (IsOutOfDate(await GetFromStore(code))) {
+    if (IsOutOfDate(await GetWorldDataFromStore(code))) {
         const pulledWorld = await PullWorldDataFromGrepolis(code)
-        await PutInStore(code, pulledWorld)
+        await PutWorldDataInStore(code, pulledWorld)
     }
-    return await GetFromStore(code)
+    return await GetWorldDataFromStore(code)
 }
 
 const PullWorldDataFromGrepolis = async (code) => {

@@ -4,7 +4,7 @@ import { Log, LogError } from '../Util/LogF.js'
 
 var cache = {}
 
-export const GetFromStore = async (code) => {
+export const GetWorldDataFromStore = async (code) => {
     if (cache[code] == null) {
         try {
             const worldStateList = await World.find({ code: code })
@@ -29,8 +29,8 @@ export const GetFromStore = async (code) => {
     return cache[code]
 }
 
-export const PutInStore = async (code, worldState) => {
-    if (!IsOutOfDate(GetFromStore(code))) {
+export const PutWorldDataInStore = async (code, worldState) => {
+    if (!IsOutOfDate(GetWorldDataFromStore(code))) {
         return
     }
 

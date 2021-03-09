@@ -3,7 +3,7 @@ import { Log, LogError } from '../Util/LogF.js'
 
 var cache = []
 
-export const GetFromStore = async (code, ocean) => {
+export const GetMapImageFromStore = async (code, ocean) => {
     if (!cache.some(element => element.code == code && element.ocean == ocean)) {
         try {
             const retrievedImages = await MapImage.find({ code: code, ocean: ocean })
@@ -25,7 +25,7 @@ export const GetFromStore = async (code, ocean) => {
     return cache.filter(element => element.code == code && element.ocean == ocean)[0]
 }
 
-export const PutInStore = async (code, ocean, image) => {
+export const PutMapImageInStore = async (code, ocean, image) => {
     cache = cache.filter(element => !(element.code == code && element.ocean == ocean))
     cache.push(image)
 

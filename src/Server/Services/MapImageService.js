@@ -1,7 +1,7 @@
 import Jimp from 'jimp'
 import { GetLiveWorldState } from "./WorldDataService.js"
 import { GetIslandImage } from "../Constants/ImageConstants.js"
-import { GetFromStore, PutInStore } from "../Repositories/MapImageRepository.js"
+import { GetMapImageFromStore, PutMapImageInStore } from "../Repositories/MapImageRepository.js"
 import { Log } from '../Util/LogF.js'
 import MapImage from '../Models/MapImage.js'
 
@@ -9,12 +9,12 @@ const oceanSizeInPixels = 1000
 const oceanOverlap = 20
 
 export const GetMapImage = async (code, ocean) => {
-    const currentStoredImage = await GetFromStore(code, ocean)
+    const currentStoredImage = await GetMapImageFromStore(code, ocean)
     if (!currentStoredImage.imageData) {
         const generatedMapImage = await GenerateMapImage(code, ocean)
-        await PutInStore(code, ocean, generatedMapImage)
+        await PutMapImageInStore(code, ocean, generatedMapImage)
     }
-    const oceanImageData = await GetFromStore(code, ocean)
+    const oceanImageData = await GetMapImageFromStore(code, ocean)
     const imageBase64 = oceanImageData.imageData
 
     return Buffer.from(imageBase64.replace(/^data:image\/png;base64,/, ""), "base64");
@@ -30,7 +30,7 @@ const GenerateMapImage = async (world, ocean) => {
     const islandBoundMinY = oceanOffsetY - oceanOverlap
     const islandBoundMaxY = oceanOffsetY + 100 + oceanOverlap
 
-    const worldState = await GetLiveWorldState(world)
+    const worldState = await GetWorldDataFromStore(world)
 
     const islandsInOcean = worldState.islands
         .filter(
