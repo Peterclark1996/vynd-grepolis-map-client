@@ -1,5 +1,4 @@
 import MapImage from '../Models/MapImage.js'
-import Jimp from 'jimp'
 import { Log, LogError } from '../Util/LogF.js'
 
 var cache = []

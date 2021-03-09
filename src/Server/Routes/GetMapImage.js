@@ -15,7 +15,14 @@ router.get('/', function (req, res, next) {
         res.status(400).send('Invalid ocean')
         return
     }
-    GetMapImage(world, ocean, fileName => res.download(fileName))
+    GetMapImage(world, ocean)
+        .then(image => {
+            res.writeHead(200, {
+                'Content-Type': 'image/png',
+                'Content-Length': image.length
+            });
+            res.end(image);
+        })
         .catch(error => {
             LogError(error)
             res.status(500).send("Internal Server Error: 500")

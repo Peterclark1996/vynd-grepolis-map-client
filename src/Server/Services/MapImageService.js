@@ -8,7 +8,7 @@ import MapImage from '../Models/MapImage.js'
 const oceanSizeInPixels = 1000
 const oceanOverlap = 20
 
-export const GetMapImage = async (code, ocean, callback) => {
+export const GetMapImage = async (code, ocean) => {
     const currentStoredImage = await GetFromStore(code, ocean)
     if (!currentStoredImage.imageData) {
         const generatedMapImage = await GenerateMapImage(code, ocean)
@@ -17,11 +17,7 @@ export const GetMapImage = async (code, ocean, callback) => {
     const oceanImageData = await GetFromStore(code, ocean)
     const imageBase64 = oceanImageData.imageData
 
-    const buffer = Buffer.from(imageBase64.replace(/^data:image\/png;base64,/, ""), "base64");
-    Jimp.read(buffer, (error, oceanImage) => {
-        if (error) throw new Error(error)
-        oceanImage.write('output.jpg', () => callback('output.jpg'))
-    })
+    return Buffer.from(imageBase64.replace(/^data:image\/png;base64,/, ""), "base64");
 }
 
 const GenerateMapImage = async (world, ocean) => {
