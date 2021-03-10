@@ -81,7 +81,7 @@ function AppContent() {
                     {isError ? <b style={{ "color": "#ff0000", "fontSize": "large" }}>Error loading, please refresh your page</b> : <></>}
                 </Col>
                 <Col style={{ "padding": "0px 0px 0px 0px" }}>
-                    <Map worldState={worldState} setMap={setMap} />
+                    <Map worldState={worldState} worldCode={selectedWorld} setMap={setMap} />
                 </Col>
             </Row>
         </Container>
