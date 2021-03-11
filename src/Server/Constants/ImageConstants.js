@@ -1,6 +1,6 @@
 import Jimp from 'jimp'
 
-const islandScale = 0.08
+const islandScale = 0.0775
 
 var islandImageCache = {}
 

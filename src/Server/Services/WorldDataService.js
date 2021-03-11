@@ -5,10 +5,12 @@ import { Log, LogError } from '../Util/LogF.js'
 import { RequestAllianceData, RequestPlayerData, RequestCityData, RequestIslandData, GetCityOffsetForIsland } from '../External/GrepolisF.js'
 
 export const GetLiveWorldState = async (code) => {
-    if (IsOutOfDate(await GetWorldDataFromStore(code))) {
-        const pulledWorld = await PullWorldDataFromGrepolis(code)
-        await PutWorldDataInStore(code, pulledWorld)
+    const pulledWorld = await GetWorldDataFromStore(code)
+    if (!IsOutOfDate(pulledWorld) && pulledWorld.cities.length > 0) {
+        return pulledWorld;
     }
+    const newPulledWorld = await PullWorldDataFromGrepolis(code)
+    await PutWorldDataInStore(code, newPulledWorld)
     return await GetWorldDataFromStore(code)
 }
 
@@ -42,7 +44,7 @@ const PullWorldDataFromGrepolis = async (code) => {
         const cityData = await RequestCityData(code)
         const islandData = await RequestIslandData(code)
 
-        const cityOffsetRatio = 0.006
+        const cityOffsetRatio = 0.0085
         const cityMaxSize = 0.25
         const cityMinSize = 0.1
         const cityMaxPoints = 17786
@@ -50,9 +52,8 @@ const PullWorldDataFromGrepolis = async (code) => {
             const island = islandData.filter(i => i.x === city.islandX && i.y === city.islandY)[0]
             const offset = GetCityOffsetForIsland(island.islandType, city.posOnIsland)
 
-            //Perform transforms because leaflet and grepolis cant agree on which axis means what
-            city.x = 1000 - city.islandY + offset.y * cityOffsetRatio
-            city.y = city.islandX + offset.x * cityOffsetRatio
+            city.x = (1000 - city.islandY + offset.y * cityOffsetRatio)
+            city.y = (city.islandX + offset.x * cityOffsetRatio)
 
             city.size = cityMinSize + ((cityMaxSize - cityMinSize) * (city.points / cityMaxPoints))
         })
