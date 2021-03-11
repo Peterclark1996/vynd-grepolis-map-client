@@ -27,6 +27,7 @@ function AppContent() {
     const [map, setMap] = React.useState(null)
 
     const [, setMapLayers] = MapLayers.useMapLayers()
+    const [shouldShowMapGraphics, setShouldShowMapGraphics] = React.useState(true)
 
     React.useEffect(() => {
         if (selectedWorld == null || selectedWorld.name == null || selectedWorld.code == null) return
@@ -76,12 +77,12 @@ function AppContent() {
             <Row>
                 <Col style={{ "maxWidth": "350px" }}>
                     {shouldDisplayWorldPicker && !worldListError ? <WorldPicker world={selectedWorld} worldList={worldList} setSelectedWorld={setSelectedWorld} /> : <></>}
-                    {shouldDisplayLegend && !worldStateError ? <Legend alliances={worldState.alliances} map={map} /> : <></>}
+                    {shouldDisplayLegend && !worldStateError ? <Legend alliances={worldState.alliances} map={map} setShouldShowMapGraphics={setShouldShowMapGraphics} /> : <></>}
                     {isLoading && !isError ? <Spinner animation="border" variant="primary" /> : <></>}
                     {isError ? <b style={{ "color": "#ff0000", "fontSize": "large" }}>Error loading, please refresh your page</b> : <></>}
                 </Col>
                 <Col style={{ "padding": "0px 0px 0px 0px" }}>
-                    <Map worldState={worldState} worldCode={selectedWorld} setMap={setMap} />
+                    <Map worldState={worldState} worldCode={selectedWorld} setMap={setMap} shouldShowMapGraphics={shouldShowMapGraphics} />
                 </Col>
             </Row>
         </Container>

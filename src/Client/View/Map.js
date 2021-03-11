@@ -5,7 +5,7 @@ import Alliance from './Alliance'
 import Grid from './Grid'
 import OceanImages from './OceanImages'
 
-function Map({ worldState, worldCode, setMap }) {
+function Map({ worldState, worldCode, setMap, shouldShowMapGraphics }) {
     const world = {
         alliances: worldState.alliances || [],
         players: worldState.players || [],
@@ -15,7 +15,7 @@ function Map({ worldState, worldCode, setMap }) {
     return (
         <MapContainer center={[500, 500]} zoom={2} scrollWheelZoom={true} bounds={[[1000, 0], [0, 1000]]} crs={L.CRS.Simple} minZoom={0} maxZoom={10} whenCreated={setMap}>
             <Grid />
-            <OceanImages worldCode={worldCode} />
+            {shouldShowMapGraphics ? <OceanImages worldCode={worldCode} /> : <></>}
             {world.alliances.map(a => {
                 return <Alliance key={a.id} state={world} alliance={a} />
             })}

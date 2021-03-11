@@ -6,7 +6,7 @@ function LegendGreyAlliances({ alliances, mapRef }) {
     const [checked, setchecked] = React.useState(true)
 
     const checkboxName = "checkboxgrey"
-    const displayName = "Toggle players in alliances less than 24th"
+    const displayName = "Show smaller alliances"
 
     const [mapLayers] = MapLayers.useMapLayers()
 

@@ -1,7 +1,8 @@
 import LegendAlliance from './LegendAlliance.js'
 import LegendGreyAlliances from './LegendGreyAlliances.js'
+import LegendMapImage from './LegendMapImage.js'
 
-const Legend = ({ alliances, map }) => {
+const Legend = ({ alliances, map, setShouldShowMapGraphics }) => {
     const topAlliances = alliances.slice(0, 24)
     const otherAlliances = alliances.slice(24)
 
@@ -9,6 +10,7 @@ const Legend = ({ alliances, map }) => {
     return (
         <div className="legend">
             <LegendGreyAlliances alliances={otherAlliances} mapRef={map} />
+            <LegendMapImage setShouldShowMapGraphics={setShouldShowMapGraphics} />
             <div className="legend-title">Alliances (Top {alliances.length})</div>
             {topAlliances.map(a => <LegendAlliance key={a.id} alliance={a} position={pos++} mapRef={map} />)}
         </div>
