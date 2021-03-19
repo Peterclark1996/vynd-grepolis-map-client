@@ -15,20 +15,20 @@ import getMapImageRouter from './Routes/GetMapImage.js'
 
 Log('Starting API')
 
-const app = express();
+const app = express()
 
-app.use(cors());
+app.use(cors())
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
 
 Log('Adding routes')
 
-app.use('/', indexRouter);
-app.use('/getWorlds', getWorldsRouter);
-app.use('/getWorldData', getWorldDataRouter);
+app.use('/', indexRouter)
+app.use('/getWorlds', getWorldsRouter)
+app.use('/getWorldData', getWorldDataRouter)
 app.use('/getMapImage', getMapImageRouter)
 
 if (IsProduction()) {
@@ -42,18 +42,18 @@ if (IsProduction()) {
 Log('Adding middleware')
 
 app.use(function (req, res, next) {
-  next(createError(404));
-});
+  next(createError(404))
+})
 
 app.use(function (err, req, res, next) {
-  res.locals.message = err.message;
+  res.locals.message = err.message
   res.locals.error = IsProduction() ? {} : err
 
-  res.status(err.status || 500);
+  res.status(err.status || 500)
   res.json({
     error: err
-  });
-});
+  })
+})
 
 Log('MongoDB connecting...')
 mongoose.set('useCreateIndex', true)
