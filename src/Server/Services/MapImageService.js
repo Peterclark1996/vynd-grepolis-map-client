@@ -1,27 +1,21 @@
 import Jimp from 'jimp'
 import { GetWorldDataFromStore } from "../Repositories/WorldDataRepository.js"
 import { GetIslandImage } from "../Constants/ImageConstants.js"
-import { GetMapImageFromStore, PutMapImageInStore } from "../Repositories/MapImageRepository.js"
-import { Log } from '../Util/LogF.js'
+import { GetMapImageFromStore } from "../Repositories/MapImageRepository.js"
 import MapImage from '../Models/MapImage.js'
 
 const oceanSizeInPixels = 1000
 const oceanOverlap = 20
 
 export const GetMapImage = async (code, ocean) => {
-    const currentStoredImage = await GetMapImageFromStore(code, ocean)
-    if (!currentStoredImage.imageData) {
-        const generatedMapImage = await GenerateMapImage(code, ocean)
-        await PutMapImageInStore(code, ocean, generatedMapImage)
-    }
     const oceanImageData = await GetMapImageFromStore(code, ocean)
-    const imageBase64 = oceanImageData.imageData
-
-    return Buffer.from(imageBase64.replace(/^data:image\/png;base64,/, ""), "base64");
+    if (oceanImageData.imageData) {
+        return Buffer.from(oceanImageData.imageData.replace(/^data:image\/png;base64,/, ""), "base64")
+    }
+    return Buffer.from('')
 }
 
-const GenerateMapImage = async (world, ocean) => {
-    Log("Generating image for ocean [" + ocean + "] on world [" + world + "]")
+export const GenerateMapImage = async (world, ocean) => {
     const oceanCoords = GetOceanCoordinates(ocean)
     const oceanOffsetX = oceanCoords.x * 100
     const oceanOffsetY = oceanCoords.y * 100
@@ -39,13 +33,14 @@ const GenerateMapImage = async (world, ocean) => {
                 i.y > islandBoundMinY &&
                 i.y < islandBoundMaxY)
 
-    const islandsWithCities = islandsInOcean.filter(i => worldState.cities
-        .some(c => c.islandX == i.x && c.islandY == i.y))
+    if (islandsInOcean.length == 0) {
+        return
+    }
 
     const oceanImage = await Jimp.read('./public/Images/sea.png')
     oceanImage.resize(1000, 1000)
 
-    for (const i of islandsWithCities) {
+    for (const i of islandsInOcean) {
         const islandImage = await GetIslandImage(i.islandType)
         if (islandImage) {
             oceanImage.composite(

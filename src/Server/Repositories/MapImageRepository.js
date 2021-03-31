@@ -14,7 +14,6 @@ export const GetMapImageFromStore = async (code, ocean) => {
             cache.push(retrievedImages[0])
         } catch (error) {
             Log("Failed to retrieved ocean [" + ocean + "] on world [" + code + "] from datasource")
-            LogError(error)
             cache.push(new MapImage({
                 code: code,
                 ocean: ocean,
@@ -29,7 +28,6 @@ export const PutMapImageInStore = async (code, ocean, image) => {
     cache = cache.filter(element => !(element.code == code && element.ocean == ocean))
     cache.push(image)
 
-    // TODO Make this atomic or similar to stop multiple calls to the datastore with potential duplicate key errors
     MapImage.deleteMany({ code: code, ocean: ocean })
         .then(image.save((error, document) => (error) ? LogError(error) : Log("Inserted image for ocean [" + ocean + "] on world [" + code + "] from datastore")))
         .catch((error) => LogError(error))

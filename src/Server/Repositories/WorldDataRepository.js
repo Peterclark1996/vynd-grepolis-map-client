@@ -17,7 +17,6 @@ export const GetWorldDataFromStore = async (code) => {
             cache[code] = worldState
         } catch (error) {
             Log("Failed to retrieve world [" + code + "] from datasource")
-            LogError(error)
             cache[code] = new World({
                 code: code,
                 datetime: GetCurrentSecondsSinceEpoch(),
@@ -37,7 +36,6 @@ export const PutWorldDataInStore = async (code, worldState) => {
 
     cache[code] = worldState
 
-    // TODO Make this atomic or similar to stop multiple calls to the datastore with potential duplicate key errors
     World.deleteMany({ code: code })
         .then(worldState.save((error, document) => (error) ? LogError(error) : Log("Inserted world [" + document.code + "] to datasource")))
         .catch((error) => LogError(error))

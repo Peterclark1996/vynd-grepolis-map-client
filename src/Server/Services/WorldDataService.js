@@ -1,21 +1,50 @@
-import { GetWorldDataFromStore, PutWorldDataInStore } from "../Repositories/WorldDataRepository.js"
-import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from "../Util/TimeF.js"
+import { GetWorldDataFromStore, PutWorldDataInStore } from '../Repositories/WorldDataRepository.js'
+import { GenerateMapImage } from './MapImageService.js'
+import { PutMapImageInStore } from '../Repositories/MapImageRepository.js'
+import { IsOutOfDate, GetCurrentSecondsSinceEpoch } from '../Util/TimeF.js'
 import World from '../Models/World.js'
-import { Log, LogError } from '../Util/LogF.js'
+import { Log } from '../Util/LogF.js'
 import { RequestAllianceData, RequestPlayerData, RequestCityData, RequestIslandData, GetCityOffsetForIsland } from '../External/GrepolisF.js'
+import { GetOceanList } from '../Constants/OceanConstants.js'
+import { GetWorlds } from '../Services/WorldsService.js'
 
-export const GetLiveWorldState = async (code) => {
-    const pulledWorld = await GetWorldDataFromStore(code)
-    if (!IsOutOfDate(pulledWorld) && pulledWorld.cities.length > 0) {
-        return pulledWorld;
-    }
-    const newPulledWorld = await PullWorldDataFromGrepolis(code)
-    await PutWorldDataInStore(code, newPulledWorld)
+export const GetLiveWorldState = async code => {
     return await GetWorldDataFromStore(code)
 }
 
-const PullWorldDataFromGrepolis = async (code) => {
-    // TODO Make this atomic or similar to stop multiple calls to the grepolis at once 
+export const UpdateAllWorlds = async () => {
+    Log("Started updating worlds")
+    const worlds = await GetWorlds()
+    worlds.forEach(async world => {
+        if (world.code === "en133") {
+            await UpdateWorldData(world.code)
+        }
+    })
+    Log("Finished updating worlds")
+}
+
+const UpdateWorldData = async code => {
+    Log("Started updating world [" + code + "]")
+    const pulledWorld = await GetWorldDataFromStore(code)
+    if (!IsOutOfDate(pulledWorld) && pulledWorld.cities.length > 0) {
+        Log("Finished updating world [" + code + "]. No update needed")
+        return
+    }
+
+    const newPulledWorld = await PullWorldDataFromGrepolis(code)
+    await PutWorldDataInStore(code, newPulledWorld)
+
+    const oceans = GetOceanList()
+    oceans.forEach(async ocean => {
+        const generatedMapImage = await GenerateMapImage(code, ocean)
+        if (generatedMapImage) {
+            await PutMapImageInStore(code, ocean, generatedMapImage)
+        }
+    })
+    Log("Finished updating world [" + code + "]. Pulled from grepolis")
+}
+
+const PullWorldDataFromGrepolis = async code => {
     Log("Fetching world [" + code + "] from Grepolis")
 
     try {
@@ -40,6 +69,7 @@ const PullWorldDataFromGrepolis = async (code) => {
             allianceData[i].colour = allianceColourHexList[i]
         }
 
+
         const playerData = await RequestPlayerData(code)
         const cityData = await RequestCityData(code)
         const islandData = await RequestIslandData(code)
@@ -56,7 +86,19 @@ const PullWorldDataFromGrepolis = async (code) => {
             city.y = (city.islandX + offset.x * cityOffsetRatio)
 
             city.size = cityMinSize + ((cityMaxSize - cityMinSize) * (city.points / cityMaxPoints))
+
+            // const player = playerData.filter(p => p.id == city.playerId)[0]
+            // city.allianceId = player ? player.alliance : 0
         })
+
+        //TODO Optimise this by possibly using indexes, maybe precompute more so the front end can do less
+        // const topAllianceIds = allianceData.filter(a => a.colour !== allianceColourHexGrey).map(a => a.id)
+        // const citiesFromTopAlliances = cityData.filter(c => topAllianceIds.includes(c.allianceId))
+        // const islandsWithCitiesFromTopAlliances = islandData.filter(i => citiesFromTopAlliances
+        //     .some(c => c.islandX == i.x && c.islandY == i.y))
+
+        const islandsWithCities = islandData.filter(i => cityData
+            .some(c => c.islandX == i.x && c.islandY == i.y))
 
         return new World({
             code: code,
@@ -64,7 +106,8 @@ const PullWorldDataFromGrepolis = async (code) => {
             alliances: allianceData,
             players: playerData,
             cities: cityData,
-            islands: islandData
+            // islands: islandsWithCitiesFromTopAlliances
+            islands: islandsWithCities
         })
     } catch (error) {
         LogError(`Failed to retrieve world '${code}' error: ${error}`)

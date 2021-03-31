@@ -12,6 +12,7 @@ import indexRouter from './Routes/index.js'
 import getWorldsRouter from './Routes/GetWorlds.js'
 import getWorldDataRouter from './Routes/GetWorldData.js'
 import getMapImageRouter from './Routes/GetMapImage.js'
+import updateWorldDataRouter from './Routes/UpdateWorldData.js'
 
 Log('Starting API')
 
@@ -30,6 +31,7 @@ app.use('/', indexRouter)
 app.use('/getWorlds', getWorldsRouter)
 app.use('/getWorldData', getWorldDataRouter)
 app.use('/getMapImage', getMapImageRouter)
+app.use('/updateWorldData', updateWorldDataRouter)
 
 if (IsProduction()) {
   Log('Adding static folder "/"')
