@@ -11,7 +11,7 @@ const Legend = ({ alliances, map, setShouldShowMapGraphics }) => {
         <div className="legend">
             <LegendGreyAlliances alliances={otherAlliances} mapRef={map} />
             <LegendMapImage setShouldShowMapGraphics={setShouldShowMapGraphics} />
-            <div className="legend-title">Alliances (Top {alliances.length})</div>
+            <div className="legend-title">Alliances (Top 24)</div>
             {topAlliances.map(a => <LegendAlliance key={a.id} alliance={a} position={pos++} mapRef={map} />)}
         </div>
     )

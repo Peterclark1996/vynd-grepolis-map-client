@@ -65,10 +65,9 @@ const PullWorldDataFromGrepolis = async code => {
             a.colour = allianceColourHexGrey
         })
 
-        for (let i = 0; i < allianceColourHexList.length - 1; i++) {
+        for (let i = 0; i < allianceColourHexList.length; i++) {
             allianceData[i].colour = allianceColourHexList[i]
         }
-
 
         const playerData = await RequestPlayerData(code)
         const cityData = await RequestCityData(code)
