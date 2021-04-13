@@ -24,9 +24,6 @@ export const GetWorldsFromStore = async () => {
         code: 'en128',
         name: 'Therma'
     }, {
-        code: 'en127',
-        name: 'Pseira'
-    }, {
         code: 'en122',
         name: 'Kelenderis'
     }, {
