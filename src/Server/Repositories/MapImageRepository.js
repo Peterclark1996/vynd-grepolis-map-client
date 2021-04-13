@@ -10,10 +10,10 @@ export const GetMapImageFromStore = async (code, ocean) => {
 
             if (retrievedImages.length == 0) throw new Error("Failed to retrieved map image")
 
-            Log("Retrieved image for ocean [" + ocean + "] on world [" + code + "] from datastore")
+            Log("Retrieved image for ocean [" + ocean + "] for world [" + code + "] from datastore")
             cache.push(retrievedImages[0])
         } catch (error) {
-            Log("Failed to retrieved ocean [" + ocean + "] on world [" + code + "] from datasource")
+            Log("Failed to retrieved ocean [" + ocean + "] for world [" + code + "] from datasource")
             cache.push(new MapImage({
                 code: code,
                 ocean: ocean,
@@ -29,6 +29,6 @@ export const PutMapImageInStore = async (code, ocean, image) => {
     cache.push(image)
 
     MapImage.deleteMany({ code: code, ocean: ocean })
-        .then(image.save((error, document) => (error) ? LogError(error) : Log("Inserted image for ocean [" + ocean + "] on world [" + code + "] from datastore")))
+        .then(image.save((error, document) => (error) ? LogError(error) : Log("Inserted image for ocean [" + ocean + "] for world [" + code + "] to datastore")))
         .catch((error) => LogError(error))
 }
