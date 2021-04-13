@@ -16,7 +16,7 @@ export const UpdateAllWorlds = async () => {
     Log("Started updating worlds")
     const worlds = await GetWorlds()
     worlds.forEach(async world => {
-        if (world.code === "en133") {
+        if (world.code === "en133" || world.code === "en135") {
             await UpdateWorldData(world.code)
         }
     })
