@@ -22,6 +22,7 @@ function OceanImages({ worldCode }) {
                                 [GetCoordsForOcean(o.x, o.y).coordX, GetCoordsForOcean(o.x, o.y).coordY],
                                 [GetCoordsForOcean(o.x, o.y).coordX + 100, GetCoordsForOcean(o.x, o.y).coordY + 100]
                             ]}
+                            key={`${worldCode.code}${o.x}${o.y}`}
                         />)
                     })}
                 </LayerGroup> :
