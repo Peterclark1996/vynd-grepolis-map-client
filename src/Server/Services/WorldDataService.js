@@ -15,11 +15,14 @@ export const GetLiveWorldState = async code => {
 export const UpdateAllWorlds = async () => {
     Log("Started updating worlds")
     const worlds = await GetWorlds()
-    worlds.forEach(async world => {
-        if (world.code === "en129" || world.code === "en132" || world.code === "en133" || world.code === "en134" || world.code === "en135" || world.code === "en135") {
+
+    for (const worldId in worlds) {
+        const world = worlds[worldId]
+        if (world.code === "en132" || world.code === "en133" || world.code === "en134" || world.code === "en135" || world.code === "en136") {
             await UpdateWorldData(world.code)
         }
-    })
+    }
+
     Log("Finished updating worlds")
 }
 
