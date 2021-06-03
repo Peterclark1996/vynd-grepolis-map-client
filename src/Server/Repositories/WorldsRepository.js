@@ -1,5 +1,8 @@
 export const GetWorldsFromStore = async () => {
     const worlds = [{
+        code: 'en136',
+        name: 'Oricos'
+    }, {
         code: 'en135',
         name: 'Kepoi'
     }, {
